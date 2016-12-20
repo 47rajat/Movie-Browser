@@ -1,5 +1,28 @@
 import media
 import movie_web_page
+import json
+
+##Adding data from movie_data.json
+display_list =[]
+CONST_MOVIE_TITLE = 'original_title'
+CONST_MOVIE_STORYLINE = 'overview'
+CONST_MOVIE_POSTER = 'poster_path'
+CONST_MOVIE_POSTER_URL = 'https://image.tmdb.org/t/p/w500'
+CONST_MOVIE_TRAILER = 'no trailer available'
+CONST_MOVIE_TRAILER_URL = 'https://www.youtube.com/watch?v='
+with open('movie_data.json') as data_file:
+    movie_data = json.load(data_file)
+
+movie_list = movie_data['results']
+
+#print movie_list
+
+for movie in movie_list:
+    display_list.append(media.Movie(movie[CONST_MOVIE_TITLE],
+                                    movie[CONST_MOVIE_STORYLINE],
+                                    CONST_MOVIE_POSTER_URL + movie[CONST_MOVIE_POSTER],
+                                    CONST_MOVIE_TRAILER_URL + CONST_MOVIE_TRAILER))
+
 
 toy_story = media.Movie('Toy Story',
                         'A story about a boy and his toys',
@@ -33,6 +56,6 @@ hunger_games = media.Movie('Hunger Games',
                            'http://upload.wikimedia.org/wikipedia/en/4/42/HungerGamesPoster.jpg',
                            'https://www.youtube.com/watch?v=PbA63a7H0bo')
 
-all_movies = [toy_story, avatar, school_of_rock, ratatouille, midnight_in_paris, hunger_games]
+display_list = display_list + [toy_story, avatar, school_of_rock, ratatouille, midnight_in_paris, hunger_games]
 
-movie_web_page.open_movies_page(all_movies)
+movie_web_page.open_movies_page(display_list)
